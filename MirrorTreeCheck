@@ -1,0 +1,42 @@
+//Definition for a binary tree node
+struct TreeNode
+{
+	int val;
+	TreeNode *left;
+	TreeNode *right;
+};
+
+
+class Solution
+{
+	public:
+    bool isSymmetric(TreeNode* root)
+    {
+        struct TreeNode* root2 = MirrorTree(root);
+        return check(root,root2);
+    }
+    struct TreeNode* MirrorTree(struct TreeNode* root)
+    {
+        struct TreeNode* temp;
+        if(root)
+        {
+            MirrorTree(root->left);
+            MirrorTree(root->right);
+            temp = root->left;
+            root->left = root->right;
+            root->right = temp;
+        }
+        return root;
+    }
+    bool check(TreeNode* root1, TreeNode* root2)
+    {
+        if(!root1&& !root2)
+            return 1;
+        else if(!root1 ||!root2)
+            return 0;
+        else if(root1->val != root2->val)
+            return 0;
+        else
+            return(check(root1->left,root2->right)&&check(root1->right,root2->left));
+    }
+};
